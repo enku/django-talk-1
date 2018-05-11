@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" href="reveal.js/css/reveal.css"/>
+        <link rel="stylesheet" href="reveal.js/css/theme/league.css"/>
+        <title>Introduction to Django</title>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                  <h2>Introduction to <img style="vertical-align: middle; width: 25%; height: 25%" src="https://www.djangoproject.com/m/img/logos/django-logo-negative.svg"/></h2>
+                    <h4>Albert Hopkins &lt;marduk@letterboxes.org&gt;</h4>
+                    <h4>10 May 2018</h4>
+                </section>
+                <section>
+                  <h2>What is Django?</h2>
+                  <ul>
+                    <li>"The web framework for perfectionists with deadlines."</li>
+                    <li><a target="_blank" href="https://www.djangoproject.com/">www.djangoproject.com</a></li>
+                    <li>OSS since 2005</li>
+                    <li>
+                      <ul>
+                        <li>Rapid development</li>
+                        <li>Security</li>
+                        <li>Open Source with many supported libraries/apps</li>
+                      </ul>
+                  </ul>
+                </section>
+                <section>
+                  <h2>What is a web framework?</h2>
+                  <ul>
+                    <li>Tool for serving HTTP requests</li>
+                    <li>request → middleware → view → middleware → response</li>
+                    <li>static media, authentication, database, templates, etc.</li>
+                  </ul>
+                </section>
+                <section>
+                  <h2>Django Views</h2>
+                      <ul>
+                        <li>Recieve a "request" and return a "response".</li>
+                        <li>function- or class-based</li>
+                        <li>Can serve web pages, REST APIs, media, etc.</li>
+                      </ul>
+                </section>
+                <section>
+                  <h2>Example View</h2>
+                  <pre>
+                  <code>
+                  # views.py
+                  from django.http import HttpResponse
+
+
+                  def hello(request):
+                      return HTTPResponse("Hello World!")
+                  </code>
+                  </pre>
+                </section>
+                <section>
+                  <h2>Installing Django</h2>
+                  <pre>
+                  <code>
+                  $ pip install django
+                  </code>
+                  </pre>
+                </section>
+                <section>
+                  <h2>Projects and apps</h2>
+                  <section>
+                  <pre>
+                  <code>
+                  $ django-admin.py startproject &lt;projectname&gt;
+                  </code>
+                  </pre>
+                </section>
+                <section>
+                  <pre>
+                  <code>
+                  $ django-admin.py startapp &lt;appname&gt;
+                  $ # or
+                  $ pip install &lt;appname&gt;
+                  </code>
+                  </pre>
+                </section>
+                <section>
+                  <pre>
+                  <code>
+                  # settings.py
+
+                  INSTALLED_APPS = [
+                      'django.contrib.admin',
+                      'django.contrib.auth',
+                      'django.contrib.contenttypes',
+                      …
+                      'myapp',
+                  ]
+                  </code>
+                  </pre>
+                </section>
+                </section>
+                <section>
+                  <h2>Django ORM</h2>
+                  <section>
+                    <pre><code>
+from django.db import models
+
+
+class Band(models.Model):
+    """A model of a rock band."""
+    name = models.CharField(max_length=200)
+    can_rock = models.BooleanField(default=True)
+
+
+class Member(models.Model):
+    """A model of a rock band member."""
+    name = models.CharField("Member's name", max_length=200)
+    band = models.ForeignKey("Band")
+                    </code></pre>
+                  </section>
+                  <section>
+                    <pre><code>
+members = Member.objects.filter(band__name='Led Zeppelin')
+
+for member in members:
+    print(member.name)
+                    </code></pre>
+                  </section>
+                  <section>
+                    <pre><code>
+SELECT member.name FROM member 
+INNER JOIN band ON member.band_id = band.id 
+WHERE band.name = "Led Zeppelin";
+                    </code></pre>
+                  </section>
+                </section>
+                <section>
+                  <h2>Templates</h2>
+                  <pre><code>&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Band Listing</title>
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;All Bands</h1>
+    &lt;ul&gt;
+    {% for band in bands %}
+      &lt;li&gt;
+        &lt;h2&gt;&lt;a href="{{ band.get_absolute_url }}"&gt;{{ band.name }}&lt;/a&gt;&lt;/h2&gt;
+        {% if band.can_rock %}&lt;p&gt;This band can rock!&lt;/p&gt;{% endif %}
+      &lt;/li&gt;
+    {% endfor %}
+    &lt;/ul&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                </section>
+                <section>
+                  <h1>Hands On</h1>
+                </section>
+                <section>
+                  <h1>Questions?</h1>
+                </section>
+                <section>
+                  <h1>Thank You!</h1>
+                </section>
+            </div> <!-- slides -->
+        </div> <!-- reveal -->
+        <script src="reveal.js/js/reveal.js"></script>
+        <script>
+          Reveal.initialize();
+        </script>
+    </body>
+</html>
